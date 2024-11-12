@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  morningchecks:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: morningchecks
+    volumes:
+      - .:/morningchecks
+    ports:
+      - "80:80"
+    command: ['./startApp.sh']

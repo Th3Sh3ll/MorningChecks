@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{url_for ('static', filename='script.js')}}" > </script>    
+    <title>Morning Checks | Home</title>
+</head>
+<body>
+
+    <div class="logout-container">      
+        <span class="greeting-message">hello: {{goodMorning}} | </span>
+        <form action="/logout" method="POST">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+    
+    <div class="success-message" id="success-message">
+        <div id="ticketsLogged"></div>
+        <div id="ticketsLoggedPassed"></div>
+        <div id="ticketsAssignedTo"></div>
+        <div id="teamsPostSentStatus"></div>
+    </div>
+
+    <div class="container">
+        <div class="logo-container">
+            <h1 id="page-logo">EMEA | Morning Checks</h1>
+        </div>
+        <div class="checkbox-counter-container">
+            <div id="checkbox-counter">DONE: <span id="count"> 0 </span></div>
+            <div id="checksLeft">TO DO: <span id="countOfChecksLeft"> 0 </span></div>
+        </div>  
+        <br>
+    <form id="checklist-form" method="POST" enctype="multipart/form-data">
+        {% for check in checkItems %}
+            <div class="check-item" id="{{check['id']}}">
+                <label>{{check['label']}}</label>
+                <div class="checkbox-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" class="check-box" name="{{check['id']}}" value="OK">
+                        <span class="checkmark"></span> OK
+                    </label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" class="check-box" name="{{check['id']}}" value="PROBLEM">
+                        <span class="checkmark"></span> PROBLEM
+                    </label>
+                </div>
+            <div contenteditable="true" id="{{check['id']}}-notes" class="notes" title="Paste notes or screenshots here"></div>
+            </div>
+        {% endfor %}
+        <button type="submit" id="complete-btn" class="hidden">Complete</button>
+    </form>
+    <div class="spinner" id="loading-spinner"></div>
+    </div>
+</body>
